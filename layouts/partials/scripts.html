@@ -14,6 +14,70 @@
   {{ if .Site.Params.fancybox }}<script type="text/javascript" src="{{ "lib/fancybox/jquery.fancybox-3.1.20.min.js" | relURL }}"></script>{{ end }}
 {{- end -}}
 
+<!-- 搜索框引入js -->
+
+{{- if .Site.Params.algolia.appId -}}
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+docsearch({
+    apiKey: {{ .Site.Params.algolia.searchOnlyKey }},
+    indexName: {{ .Site.Params.algolia.indexName }},
+    appId: {{ .Site.Params.algolia.appId }},
+    inputSelector: '.docsearch-input',
+    debug: false,
+});
+docsearch({
+    apiKey: {{ .Site.Params.algolia.searchOnlyKey }},
+    indexName: {{ .Site.Params.algolia.indexName }},
+    appId: {{ .Site.Params.algolia.appId }},
+    inputSelector: '.mob-docsearch-input',
+    debug: false,
+}); 
+// while (true){
+//   setTimeout(() => {
+//     alert("1")
+//   }, 1);
+// };
+
+</script>
+{{- end -}}
+
+{{- if .Site.Params.timecount.year -}}
+<script> 
+timecount = document.getElementById("timecount");
+function count(pyear,pmonth,pday,phour,pmin,psec,ptext){
+  let timenow = new Date();
+  let dabeginday = new Date();
+  dabeginday.setFullYear(pyear, pmonth-1, pday);
+  dabeginday.setHours(phour);
+  dabeginday.setMinutes(pmin);
+  dabeginday.setSeconds(psec);
+
+  let between = timenow - dabeginday
+  
+  let day = parseInt( between / 86400000); 
+  let hour = parseInt((between -  day*86400000)/3600000); 
+  let min = parseInt((between -  day*86400000 - hour*3600000 )/60000 ); 
+
+  let secends = parseInt((between - day*86400000 - hour*3600000 - min*60000)/1000); 
+  
+
+  return  `${ptext}${day}天${hour}小时${min}分${secends}秒了！`
+}
+setInterval(() => {
+  timecount.innerHTML=count({{ .Site.Params.timecount.year }},
+  {{ .Site.Params.timecount.month }},
+  {{ .Site.Params.timecount.day }},
+  {{ .Site.Params.timecount.hour }},
+  {{ .Site.Params.timecount.min }},
+  {{ .Site.Params.timecount.sec }},
+  {{ .Site.Params.timecount.text }}
+  )
+}, 1000);
+</script>
+
+{{- end -}}
+
 <!-- timeago.JS -->
 {{- if and (or .Params.enableOutdatedInfoWarning (and .Site.Params.outdatedInfoWarning.enable (ne .Params.enableOutdatedInfoWarning false))) (or .IsPage .IsHome) }}
   {{- if .Site.Params.publicCDN.enable }}

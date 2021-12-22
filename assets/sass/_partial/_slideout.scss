@@ -19,6 +19,14 @@
   }
 }
 
+// 这里新增
+// 搜索框适配异动端
+@media screen and (max-width: 500px) {
+  .algolia-autocomplete .ds-dropdown-menu {
+      min-width: 99vw;
+  }
+}
+
 .slideout-panel {
   position: relative;
   z-index: 1;

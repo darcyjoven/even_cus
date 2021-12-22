@@ -12,6 +12,13 @@
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
+    <!-- 添加搜索框 -->
+
+  {{- if .Site.Params.algolia.appId -}}
+  <li style="display:inline-block;margin-right:10px;">
+    <input type="search" class="docsearch-input" placeholder="Search" />
+  </li>
+  {{- end -}}
     {{ range .Site.Menus.main -}}
       <li class="menu-item">
         <a class="menu-item-link" href="{{ .URL | safeURL }}">{{ .Name }}</a>
@@ -19,3 +26,5 @@
     {{- end }}
   </ul>
 </nav>
+
+
